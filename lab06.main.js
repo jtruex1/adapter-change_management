@@ -185,79 +185,34 @@ healthcheck(callback) {
    * @param {ServiceNowAdapter~requestCallback} callback - The callback that
    *   handles the response.
    */
- 	  getRecord(callback) {
-	      /**
-	      * Write the body for this function.
-	      * The function is a wrapper for this.connector's get() method.
-	      * Note how the object was instantiated in the constructor().
-	      * get() takes a callback function.
-	      */
-	      let callbackData = null;
-	      let callbackError = null;
-	      this.connector.get((data, error) => {
-	      if (error) {
-	      callbackError = error;
-	      console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
-	      } else { 
-	    let bodyData = JSON.parse(data.body); 
-	       let resultArr = bodyData.result;
-	      let arr = [];
-	      for (let result in resultArr) { 
-              let obj = {};
-              obj["change_ticket_number"] = resultArr[result].number;
-              obj["active"] = resultArr[result].active;
-              obj["priority"] = resultArr[result].priority;
-              obj["description"] = resultArr[result].description;
-              obj["work_start"] = resultArr[result].work_start;
-              obj["work_end"] = resultArr[result].work_end;
-              obj["change_ticket_key"] = resultArr[result].sys_id;
-              arr.push(obj);
-	       callbackData = arr;
-	      console.log(`\nResponse returned from GET request:\n${JSON.stringify(callbackData)}`);
-	      }
-	      } 
-	       return callback(callbackData, callbackError);
-	      });
-	      }
-	
-	  /**
-	   * @memberof ServiceNowAdapter
-	   * @method postRecord
-	   * @summary This will create a ticket in service now
-	   * @description ServiceNow record creation
-	   *
-	   * @param {ServiceNowAdapter~requestCallback} callback - This call back will handle the response
-	   */
-	  postRecord(callback) {
-	      /**
-	      * Write the body for this function.
-	      * The function is a wrapper for this.connector's post() method.
-	      * Note how the object was instantiated in the constructor().
-	      * post() takes a callback function.
-	      */
-	      let callbackData = null;
-	      let callbackError = null;
-	      this.connector.post((data, error) => {
-	      if (error) {
-	      console.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
-	      callbackError = error;
-	      } else {  
-	    var body = JSON.parse(data.body); 
-	       let result = body.result; 
-           var arr= {};
-           arr["change_ticket_number"]=result.number;
-           arr["active"] = result.active;
-           arr["priority"] = result.priority;
-           arr["description"]=result.description;
-            arr["work_start"] = result.work_start;
-            arr["work_end"] = result.work_end;
-            arr["change_ticket_key"]= result.sys_id;
-            callbackData = arr;
-	      console.log(`\nResponse returned from POST request:\n${JSON.stringify(callbackData)}`);
-	      } 
-	       return callback(callbackData,callbackError);
-	      });
-	      }
+  getRecord(callback) {
+    /**
+     * Write the body for this function.
+     * The function is a wrapper for this.connector's get() method.
+     * Note how the object was instantiated in the constructor().
+     * get() takes a callback function.
+     */
+     this.connector.get(callback)
+  }
+
+  /**
+   * @memberof ServiceNowAdapter
+   * @method postRecord
+   * @summary Create ServiceNow Record
+   * @description Creates a record in ServiceNow.
+   *
+   * @param {ServiceNowAdapter~requestCallback} callback - The callback that
+   *   handles the response.
+   */
+  postRecord(callback) {
+    /**
+     * Write the body for this function.
+     * The function is a wrapper for this.connector's post() method.
+     * Note how the object was instantiated in the constructor().
+     * post() takes a callback function.
+     */
+     this.connector.post(callback)
+  }
 }
 
 module.exports = ServiceNowAdapter;
